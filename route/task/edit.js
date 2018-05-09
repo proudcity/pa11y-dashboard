@@ -72,6 +72,7 @@ function route(app) {
 			if (!request.body.actions) {
 				request.body.actions = [];
 			}
+      request.body.type = 'recurring'; // @TODO create switch for this
 			request.body.username = request.body.username || undefined;
 			request.body.password = request.body.password || undefined;
 			request.body.hideElements = request.body.hideElements || undefined;

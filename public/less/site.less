@@ -154,7 +154,8 @@
   font-weight: bold;
 
   li {
-	width: 32%;
+	//width: 23%;
+    width: 31%;
 	margin-right: 2%;
 	border-radius: @border-radius-base;
 
@@ -171,7 +172,7 @@
 }
 
 .stat-type {
-  font-size: floor(@font-size-base * 0.75); // ~11px;
+  font-size: floor(@font-size-base * 0.65); // ~10px;
   text-transform: uppercase;
   display: block;
   line-height: 1.4;
@@ -179,6 +180,11 @@
 }
 
 // Stats box colours
+.success, .pass {
+  background-color: @brand-success;
+  color: @btn-default-color;
+}
+
 .danger, .error {
   background-color: @brand-danger;
   color: @btn-default-color;
@@ -197,6 +203,26 @@
 /* Task card */
 .task-card {
   margin-bottom: 20px;
+
+  @media (min-width: @screen-sm-min) {
+    &:nth-child(2n+1) {
+      clear: left;
+    }
+  }
+
+  @media (min-width: @screen-md-min) {
+    &:nth-child(2n+1) {
+      clear: none;
+    }
+
+    &:nth-child(3n+1) {
+      clear: left;
+    }
+  }
+
+  .well {
+    margin-bottom: 0;
+  }
 
   .no-results {
 	font-size: floor(@font-size-base * 1.70); // ~25px;
@@ -279,6 +305,15 @@
   &__item {
 	font-size: 16px;
 
+    &_type_pass,
+    &_type_pass.active {
+      .category-list__link,
+      .category-list__link:hover,
+      .category-list__link:focus {
+        color: @brand-success;
+      }
+    }
+
 	&_type_error,
 	&_type_error.active {
 	  .category-list__link,
@@ -359,6 +394,17 @@
 
 .task {
   margin-bottom: 16px;
+
+  &_type_pass {
+    .rule-name,
+    .ignore-form .link {
+      color: @brand-success;
+    }
+
+    .badge {
+      background: @brand-success;
+    }
+  }
 
   &_type_error {
 	.rule-name,

@@ -22,75 +22,98 @@ module.exports = route;
 // Route definition
 function route(app) {
 
-	app.express.get('/new', (request, response) => {
-		const standards = getStandards().map(standard => {
-			if (standard.title === 'WCAG2AA') {
-				standard.selected = true;
+	app.express.get('/new', (request, response, next) => {
+    app.webservice.org(request.cookies.orgId).checkLimit((error, data) => {
+    	if (error) {
+    		// Limit issue
+    		if (data && data.limit) {
+          return response.render('limit', data);
+				} else {
+    			return next(error);
+				}
 			}
-			return standard;
-		});
-		response.render('new', {
-			standards: standards,
-			isNewTaskPage: true
-		});
+      const standards = getStandards().map(standard => {
+        if (standard.title === 'WCAG2AA') {
+          standard.selected = true;
+        }
+        return standard;
+      });
+      response.render('new', {
+        standards: standards,
+        isNewTaskPage: true
+      });
+    });
 	});
 
-	app.express.post('/new', (request, response) => {
+	app.express.post('/new', (request, response, next) => {
+    app.webservice.org(request.cookies.orgId).checkLimit((error, data) => {
+      if (error) {
+        // Limit issue
+        if (data && data.limit) {
+          return response.render('limit', data);
+        } else {
+          return next(error);
+        }
+      }
+      let parsedActions;
+      if (request.body.actions) {
+        parsedActions = request.body.actions.split(/[\r\n]+/)
+          .map(action => {
+            return action.trim();
+          })
+          .filter(action => {
+            return Boolean(action);
+          });
+      }
 
-		let parsedActions;
-		if (request.body.actions) {
-			parsedActions = request.body.actions.split(/[\r\n]+/)
-				.map(action => {
-					return action.trim();
-				})
-				.filter(action => {
-					return Boolean(action);
-				});
-		}
+      let parsedHeaders;
+      if (request.body.headers) {
+        parsedHeaders = httpHeaders(request.body.headers, true);
+      }
 
-		let parsedHeaders;
-		if (request.body.headers) {
-			parsedHeaders = httpHeaders(request.body.headers, true);
-		}
+      // Post WITH ORG
+      const newTask = {
+        name: request.body.name, // @TODO have name?
+        type: 'recurring', // @TODO create switch for this
+        org: request.cookies.orgId,
+        url: request.body.url,
+        // standard: request.body.standard, // @TODO allow entry?
+        standard: 'WCAG2AA',
+        ignore: request.body.ignore || [],
+        timeout: request.body.timeout || undefined,
+        wait: request.body.wait || undefined,
+        actions: parsedActions,
+        username: request.body.username || undefined,
+        password: request.body.password || undefined,
+        headers: parsedHeaders,
+        // hideElements: request.body.hideElements || undefined // @TODO allow entry?
+        hideElements: '[aria-hidden="true"]'
+      };
 
-		const newTask = {
-			name: request.body.name,
-			url: request.body.url,
-			standard: request.body.standard,
-			ignore: request.body.ignore || [],
-			timeout: request.body.timeout || undefined,
-			wait: request.body.wait || undefined,
-			actions: parsedActions,
-			username: request.body.username || undefined,
-			password: request.body.password || undefined,
-			headers: parsedHeaders,
-			hideElements: request.body.hideElements || undefined
-		};
-
-		app.webservice.tasks.create(newTask, (error, task) => {
-			if (error) {
-				const standards = getStandards().map(standard => {
-					if (standard.title === newTask.standard) {
-						standard.selected = true;
-					}
-					standard.rules = standard.rules.map(rule => {
-						if (newTask.ignore.indexOf(rule.name) !== -1) {
-							rule.ignored = true;
-						}
-						return rule;
-					});
-					return standard;
-				});
-				newTask.actions = request.body.actions;
-				newTask.headers = request.body.headers;
-				return response.render('new', {
-					error: error,
-					standards: standards,
-					task: newTask
-				});
-			}
-			response.redirect(`/${task.id}?added`);
-		});
-	});
-
+      app.webservice.tasks.create(newTask, (createError, task) => {
+        if (createError) {
+          const standards = getStandards().map(standard => {
+            if (standard.title === newTask.standard) {
+              standard.selected = true;
+            }
+            standard.rules = standard.rules.map(rule => {
+              if (newTask.ignore.indexOf(rule.name) !== -1) {
+                rule.ignored = true;
+              }
+              return rule;
+            });
+            return standard;
+          });
+          newTask.actions = request.body.actions;
+          newTask.headers = request.body.headers;
+          return response.render('new', {
+            error: createError,
+            standards: standards,
+            task: newTask
+          });
+        }
+        response.redirect(`/${task.id}?added`);
+      });
+    });
+  });
 }

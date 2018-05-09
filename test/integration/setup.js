@@ -28,7 +28,9 @@ before(function(done) {
 	this.last = {};
 	this.navigate = createNavigator(this.baseUrl, this.last);
 	this.webservice = createWebserviceClient(config);
+	console.log(this.webservice);
 	assertTestAppIsRunning(this.baseUrl, () => {
+		console.log(this.baseUrl);
 		loadFixtures('test', config.webservice, done);
 	});
 });
@@ -45,6 +47,7 @@ function assertTestAppIsRunning(url, done) {
 			console.error('Error: Test app not started; run with `NODE_ENV=test node index.js`');
 			process.exit(1);
 		}
+		console.log('doneeee');
 		done();
 	});
 }

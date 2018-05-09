@@ -15,6 +15,7 @@
 'use strict';
 
 const _ = require('underscore');
+const presentPassedRules = require('./passed');
 const presentIgnoreRules = require('./ignore');
 const techs = require('../../data/techniques')();
 
@@ -29,6 +30,9 @@ function presentResult(result) {
 
 	// Parse date
 	result.date = new Date(result.date);
+
+	// Enhance the completed rules
+  result.passed = presentPassedRules(result.passed || []);
 
 	// Enhance the ignored rules
 	result.ignore = presentIgnoreRules(result.ignore);
@@ -66,6 +70,9 @@ function presentResult(result) {
 					return nextItem.count - currentItem.count;
 				});
 		});
+
+		// Add passed to count
+    result.count.passed = result.passed.length;
 	}
 
 	return result;

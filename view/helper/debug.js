@@ -14,26 +14,17 @@
 // along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
-const presentTask = require('../view/presenter/task');
+module.exports = helper;
 
-module.exports = route;
-
-// Route definition
-// Hijacked to query org based tasks
-function route(app) {
-	app.express.get('/', (request, response, next) => {
-		app.webservice.org(request.cookies.orgId).getTasks({lastres: true}, (error, data) => {
-			if (error) {
-				return next(error);
-			}
-			response.render('index', {
-				tasks: data.tasks.map(presentTask),
-				count: data.count,
-				limit: data.limit,
-				overLimit: data.message ? true : false,
-				deleted: (typeof request.query.deleted !== 'undefined'),
-				isHomePage: true
-			});
-		});
-	});
+function helper(hbs) {
+  hbs.registerHelper('debug', context => {
+    console.log("Current Context");
+    console.log("====================");
+    console.log(this);
+    if (context) {
+      console.log("Value");
+      console.log("====================");
+      console.log(context);
+    }
+  });
 }

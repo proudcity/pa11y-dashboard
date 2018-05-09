@@ -23,7 +23,6 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="col-md-12 clearfix" data-test="alert">
 		<div class="alert alert-success">
 			<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
-			<strong>Whoop whoop!</strong>
 			<p>Your new URL has been added.</p>
 		</div>
 	</div>
@@ -71,11 +70,17 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 {{> task-header}}
 
 {{#if results}}
-
-	{{#unless hasOneResult}}
-		{{> graph}}
-	{{/unless}}
-
+  {{#isRecurring task}}
+		{{#unless hasOneResult}}
+			{{> graph}}
+		{{/unless}}
+  {{else}}
+		<div class="col-md-12 clearfix" data-test="alert">
+			<div class="alert alert-info">
+				<p>This is not a recurring task.</p>
+			</div>
+		</div>
+	{{/isRecurring}}
 {{/if}}
 
 {{#if mainResult}}
@@ -84,7 +89,7 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 	<div class="col-md-12" data-test="alert">
 		<div class="alert alert-info">
 			<h4>There are no results to show</h4>
-			<p>Pa11y has not been run against this URL yet so there are no results to show.</p>
+			<p>Accessibility report has not been run against this URL yet so there are no results to show.</p>
 			<p><a href="{{task.hrefRun}}">Click here to generate results for this URL</a>.</p>
 		</div>
 	</div>

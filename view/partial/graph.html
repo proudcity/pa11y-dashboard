@@ -30,6 +30,14 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 			<div class="dashedContainer">
 			    <table>
 			        <tbody>
+								<tr>
+										<td class="legendColorBox">
+												<div class="clearfix legendIcon legendPassed">
+														<div></div>
+												</div>
+										</td>
+										<td class="legendLabel">Passed</td>
+								</tr>
 			            <tr>
 			                <td class="legendColorBox">
 			                    <div class="clearfix legendIcon legendErrors">
@@ -46,14 +54,14 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 			                </td>
 			                <td class="legendLabel">Warnings</td>
 			            </tr>
-			            <tr>
-			                <td class="legendColorBox">
-			                    <div class="clearfix legendIcon legendNotices">
-			                        <div></div><div></div><div></div>
-			                    </div>
-			                </td>
-			                <td class="legendLabel">Notices</td>
-			            </tr>
+			            <!--<tr>-->
+			                <!--<td class="legendColorBox">-->
+			                    <!--<div class="clearfix legendIcon legendNotices">-->
+			                        <!--<div></div><div></div><div></div>-->
+			                    <!--</div>-->
+			                <!--</td>-->
+			                <!--<td class="legendLabel">Notices</td>-->
+			            <!--</tr>-->
 			        </tbody>
 			    </table>
 			</div>
@@ -64,23 +72,25 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 
 <div class="col-md-12 hidden">
 	<div class="graph-spacer ruled">
-		<table id="graph-data" class="table graph-table" summary="Accessibility results from Pa11y for this page">
-			<caption>Pa11y results for this URL</caption>
+		<table id="graph-data" class="table graph-table" summary="Accessibility results from scan for this page">
+			<caption>Accessibility results for this URL</caption>
 			<thead>
 				<tr>
 					<th>Date</th>
+					<th class="text-center">Passed</th>
 					<th class="text-center">Errors</th>
 					<th class="text-center">Warnings</th>
-					<th class="text-center">Notices</th>
+					<!--<th class="text-center">Notices</th>-->
 				</tr>
 			</thead>
 			<tbody>
 			{{#results}}
 				<tr data-role="url-stats">
 					<td data-value="{{date-timestamp date}}" data-role="date">{{date-format date format="DD MMM YYYY"}}</td>
+					<td class="text-center" data-label="passed">{{passed.length}}</td>
 					<td class="text-center" data-label="error">{{count.error}}</td>
 					<td class="text-center" data-label="warning">{{count.warning}}</td>
-					<td class="text-center" data-label="notice">{{count.notice}}</td>
+					<!--<td class="text-center" data-label="notice">{{count.notice}}</td>-->
 				</tr>
 			{{/results}}
 			</tbody>

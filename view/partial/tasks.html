@@ -18,27 +18,37 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 <ul class="list-unstyled clearfix crunch-bottom">
 
 	{{#unless readonly}}
-	        <li class="col-md-4 col-sm-6 task-card add-task">
-			<a class="well task-card-link crunch-bottom" data-role="add-task" href="/new" data-test="add-task">
-				<p class="h3 crunch">Add new URL</p>
-				<p class="supersize-me crunch">+</p>
-			</a>
+		<li class="col-sm-6 col-md-4 task-card add-task">
+			{{#if overLimit}}
+			<div class="well task-card-link">
+				<p class="h3">Add new URL</p>
+				<p class="h5">Looks like your limit of {{limit}} recurring tasks has been reached.  Please <a class="pc-com" href="https://proudcity.com/contact">contact us</a> to increase your limit.</p>
+			</div>
+			{{else}}
+				<a class="well task-card-link crunch-bottom" data-role="add-task" href="/new" data-test="add-task">
+					<p class="h3 crunch">Add new URL</p>
+					<p class="supersize-me crunch">+</p>
+				</a>
+			{{/if}}
 		</li>
 	{{/unless}}
 	{{#each tasks}}
-		<li class="col-md-4 col-sm-6 task-card" data-test="task" data-role="task" data-keywords="{{lowercase name}} {{lowercase standard}} {{simplify-url url}}">
+		<li class="col-sm-6 col-md-4 task-card" data-test="task" data-role="task" data-keywords="{{lowercase name}} {{lowercase standard}} {{simplify-url url}}">
 			<a class="well task-card-link crunch-bottom" title="Details for URL {{simplify-url url}}" href="{{href}}">
 				<p class="h3">{{name}}</p>
 				<p class="h5">({{standard}})</p>
 				{{#if lastResult}}
-				<ul class="clearfix list-unstyled floated-list task-stats">
 					{{#lastResult}}
-						<li class="danger" title="Number of errors ({{count.error}})">{{count.error}}<span class="stat-type">Errors</span></li>
-						<li class="warning" title="Number of warnings ({{count.warning}})">{{count.warning}}<span class="stat-type">Warnings</span></li>
-						<li class="info last" title="Number of notices ({{count.notice}})">{{count.notice}}<span class="stat-type">Notices</span></li>
+						{{#if ruleCount}}
+							<ul class="clearfix list-unstyled floated-list task-stats">
+								<li class="success" title="Rules that passed ({{ruleCount.pass}})">{{ruleCount.passed}}<span class="stat-type">Rules Passed</span></li>
+								<li class="danger" title="Rules with errors ({{ruleCount.error}})">{{ruleCount.error}}<span class="stat-type">Rule Errors</span></li>
+								<li class="warning" title="Rules with warnings ({{ruleCount.warning}})">{{ruleCount.warning}}<span class="stat-type">Rule Warnings</span></li>
+								<!--<li class="info last" title="Rules with notices ({{ruleCount.notice}})">{{ruleCount.notice}}<span class="stat-type">Rule Notices</span></li>-->
+							</ul>
+						{{/if}}
 					{{/lastResult}}
-				</ul>
-				Last run {{date-format lastResult.date format="DD MMM YYYY"}}
+					Last run {{date-format lastResult.date format="DD MMM YYYY"}}
 				{{else}}
 					<p class="no-results">No results</p>
 				{{/if}}
@@ -50,7 +60,7 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 						<li><a href="{{href}}/edit">Edit this task</a></li>
 						<li><a href="{{href}}/delete">Delete this task</a></li>
 						<li class="divider"></li>
-						<li><a href="{{href}}/run" data-test="run-task">Run Pa11y</a></li>
+						<li><a href="{{href}}/run" data-test="run-task">Run Report</a></li>
 					</ul>
 				</div>
 			{{/unless}}

@@ -15,6 +15,8 @@
 'use strict';
 
 const bodyParser = require('body-parser');
+const cookie = require('cookie');
+const cookieParser =  require('cookie-parser');
 const compression = require('compression');
 const createClient = require('pa11y-webservice-client-node');
 const EventEmitter = require('events').EventEmitter;
@@ -67,9 +69,11 @@ function initApp(config, callback) {
 
 	// View helpers
 	require('./view/helper/date')(hbs);
+  require('./view/helper/debug')(hbs);
 	require('./view/helper/string')(hbs);
 	require('./view/helper/url')(hbs);
 	require('./view/helper/conditionals')(hbs);
+  require('./view/helper/recurring')(hbs);
 
 	// Populate view locals
 	app.express.locals = {
@@ -84,14 +88,71 @@ function initApp(config, callback) {
 		settings: {}
 	};
 
+
+  // Cookies
+  app.express.use(cookieParser());
+
+  /**
+   * Navigate to non-org page
+   * @param response
+   * @returns {*}
+   */
+  function goToNoOrg (response) {
+    return response.redirect('/no-org');
+  }
+
+  /**
+   * Checks cookies
+   * @param request
+   * @param response
+   * @param callback
+   * @returns {*}
+   */
+	function checkCookie(request, response, callback) {
+    if (request.path === '/no-org') {
+      console.log('no org page');
+      return callback();
+    }
+
+		let orgId = request.cookies.orgId;
+
+    console.log('Cookie val ' + request.cookies.orgId);
+
+    if (request.query && request.query.orgId) {
+			console.log('Query val ' + request.query.orgId);
+      orgId = request.query.orgId;
+      // Set cookie
+      if (request.cookies.orgId !== request.query.orgId) {
+        request.cookies.orgId = orgId;
+        response.setHeader('Set-Cookie', cookie.serialize('orgId', String(orgId), {
+          httpOnly: true
+        }));
+			}
+		}
+
+    console.log('current cookie: ' + orgId);
+
+		if (!orgId) {
+      console.log('no cookie');
+      return goToNoOrg(response);
+    }
+
+    callback();
+	}
+
 	app.express.use((request, response, next) => {
 		response.locals.isHomePage = (request.path === '/');
 		response.locals.host = request.hostname;
-		next();
+
+		// Check on the cookie
+    checkCookie(request, response, function() {
+      next();
+    });
 	});
 
 	// Load routes
 	require('./route/index')(app);
+  require('./route/noorg')(app);
 	require('./route/task/index')(app);
 	require('./route/result/index')(app);
 	require('./route/result/download')(app);

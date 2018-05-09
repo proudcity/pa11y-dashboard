@@ -36,6 +36,7 @@ uglify:
 		public/js/vendor/flot/jquery.flot.selection.js \
 		public/js/vendor/flot/jquery.flot.resize.js \
 		public/js/vendor/helpers/html2canvas.min.js \
+		public/js/vendor/iframe-resizer/iframeSizer.contentWindow.min.js \
 		public/js/site.js \
 		-o ./public/js/site.min.js
 	@$(TASK_DONE)
