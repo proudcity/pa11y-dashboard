@@ -32,19 +32,19 @@
     "express-hbs": "~1.0",
     "http-headers": "^3.0.1",
     "moment": "~2.15.2",
-    "pa11y-webservice": "^2.3.1",
-    "pa11y-webservice-client-node": "git@github.com:proudcity/pa11y-webservice-client-node.git",
+    "pa11y-webservice": "https://github.com/proudcity/pa11y-webservice#3.0.0-beta-1",
+    "pa11y-webservice-client-node": "https://github.com/proudcity/pa11y-webservice-client-node.git#2.0.0-beta-3",
     "underscore": "~1.8"
   },
   "devDependencies": {
     "bower": "~1.7",
     "cheerio": "~0.20",
     "eslint": "^3.18.0",
-    "less": "~2.7",
+    "less": "~3.5.3",
     "mocha": "^2",
     "pa11y-lint-config": "^1.0.0",
     "proclaim": "^3",
-    "request": "^2.74",
+    "request": "^2.83.0",
     "uglify-js": "~2.6"
   },
   "scripts": {

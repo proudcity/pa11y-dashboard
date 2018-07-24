@@ -20,7 +20,6 @@ const jsonPath = `./config/${environment}.json`;
 const jsPath = `./config/${environment}.js`;
 
 if (fs.existsSync(jsonPath)) {
-	console.log('yes');
 	module.exports = require(jsonPath);
 } else if (fs.existsSync(jsPath)) {
 	module.exports = require(jsPath);
@@ -37,6 +36,8 @@ if (fs.existsSync(jsonPath)) {
 			cron: env('WEBSERVICE_CRON', false)
 		})
 	};
+
+  console.log(module.exports);
 }
 
 function env(name, defaultValue) {

@@ -36,6 +36,8 @@ function initApp(config, callback) {
 		webserviceUrl = `http://${webserviceUrl.host}:${webserviceUrl.port}/`;
 	}
 
+	console.log(webserviceUrl);
+
 	const app = new EventEmitter();
 	app.address = null;
 	app.express = express();

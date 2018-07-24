@@ -51,7 +51,7 @@ function createStandardDescriptionMap(standards) {
         }
         return prev;
       }, []);
-      console.log(map[rule.name.toLowerCase()].solutions);
+      // console.log(map[rule.name.toLowerCase()].solutions);
     });
   });
   return map;

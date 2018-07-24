@@ -18,13 +18,13 @@ module.exports = helper;
 
 function helper(hbs) {
   hbs.registerHelper('debug', context => {
-    console.log("Current Context");
-    console.log("====================");
-    console.log(this);
-    if (context) {
-      console.log("Value");
-      console.log("====================");
-      console.log(context);
-    }
+    // console.log("Current Context");
+    // console.log("====================");
+    // console.log(this);
+    // if (context) {
+    //   console.log("Value");
+    //   console.log("====================");
+    //   console.log(context);
+    // }
   });
 }
