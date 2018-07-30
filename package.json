@@ -32,7 +32,7 @@
     "express-hbs": "~1.0",
     "http-headers": "^3.0.1",
     "moment": "~2.22.2",
-    "pa11y-webservice": "https://github.com/proudcity/pa11y-webservice#3.0.0-beta-3",
+    "pa11y-webservice": "https://github.com/proudcity/pa11y-webservice#3.0.0-beta-4",
     "pa11y-webservice-client-node": "https://github.com/proudcity/pa11y-webservice-client-node.git#2.0.0-beta-3",
     "underscore": "~1.8"
   },
