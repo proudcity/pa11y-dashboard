@@ -87,7 +87,7 @@ function route(app) {
         password: request.body.password || undefined,
         headers: parsedHeaders,
         // hideElements: request.body.hideElements || undefined // @TODO allow entry?
-        hideElements: '[aria-hidden="true"]'
+        hideElements: '[aria-hidden="true"],.sr-only'
       };
 
       app.webservice.tasks.create(newTask, (createError, task) => {

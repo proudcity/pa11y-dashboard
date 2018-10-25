@@ -137,34 +137,34 @@ along with Pa11y Dashboard.  If not, see <http://www.gnu.org/licenses/>.
 		<!--</div>-->
 	<!--</div>-->
 
-	<div class="form-group clearfix">
-		<div class="row">
-			<div class="col-md-4 col-sm-4 col-xs-6">
-				<label class="control-label" for="new-task-hide-elements">Hide Elements</label>
-				<input class="form-control" id="new-task-hide-elements" type="text" name="hideElements" value="{{task.hideElements}}" placeholder=".advert, #modal, div[aria-role=presentation]"/> <em>(CSS selector)</em>
-			</div>
-		</div>
-	</div>
+	<!--<div class="form-group clearfix">-->
+		<!--<div class="row">-->
+			<!--<div class="col-md-4 col-sm-4 col-xs-6">-->
+				<!--<label class="control-label" for="new-task-hide-elements">Hide Elements</label>-->
+				<!--<input class="form-control" id="new-task-hide-elements" type="text" name="hideElements" value="{{task.hideElements}}" placeholder=".advert, #modal, div[aria-role=presentation]"/> <em>(CSS selector)</em>-->
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
 
-	<p class="control-label"><b>Ignore these rules</b> <a target="_blank" href="https://github.com/pa11y/pa11y/wiki/HTML-CodeSniffer-Rules">(full list of rules here)</a></p>
+	<!--<p class="control-label"><b>Ignore these rules</b> <a target="_blank" href="https://github.com/pa11y/pa11y/wiki/HTML-CodeSniffer-Rules">(full list of rules here)</a></p>-->
 
-	<div class="standards-lists">
-		{{#standards}}
-			<div data-role="standards-list" data-attr="{{title}}" class="form-group">
-				<p class="control-label rules-list-title ruled"><b>{{title}} Rules</b></p>
-				<ul class="list-unstyled">
-					{{#rules}}
-						<li>
-							<input class="pull-left" id="{{name}}" type="checkbox" name="ignore[]" value="{{name}}" {{#ignored}}checked{{/ignored}}/>
-							<label for="{{name}}" title="{{description}}" data-role="rule-tooltip" class="checkbox">
-								{{name}}
-							</label>
-						</li>
-					{{/rules}}
-				</ul>
-			</div>
-		{{/standards}}
-	</div>
+	<!--<div class="standards-lists">-->
+		<!--{{#standards}}-->
+			<!--<div data-role="standards-list" data-attr="{{title}}" class="form-group">-->
+				<!--<p class="control-label rules-list-title ruled"><b>{{title}} Rules</b></p>-->
+				<!--<ul class="list-unstyled">-->
+					<!--{{#rules}}-->
+						<!--<li>-->
+							<!--<input class="pull-left" id="{{name}}" type="checkbox" name="ignore[]" value="{{name}}" {{#ignored}}checked{{/ignored}}/>-->
+							<!--<label for="{{name}}" title="{{description}}" data-role="rule-tooltip" class="checkbox">-->
+								<!--{{name}}-->
+							<!--</label>-->
+						<!--</li>-->
+					<!--{{/rules}}-->
+				<!--</ul>-->
+			<!--</div>-->
+		<!--{{/standards}}-->
+	<!--</div>-->
 
 	<button type="submit" class="btn btn-success">Save changes <span class="glyphicon glyphicon-save"></span></button>
 	<a href="/{{task.id}}/edit" class="btn btn-primary">Undo <span class="glyphicon glyphicon-refresh"></span></a>
