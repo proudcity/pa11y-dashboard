@@ -1,3 +1,12 @@
+ProudCity Pa11y Dashboard
+================
+
+##  Build
+```
+docker build -t gcr.io/proudcity-1184//pa11y-dashboard:0.1.5 .
+docker push gcr.io/proudcity-1184//pa11y-dashboard:0.1.5
+```
+
 Pa11y Dashboard
 ===============
 
